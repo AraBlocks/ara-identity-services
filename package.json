@@ -1,0 +1,25 @@
+{
+  "name": "ara-identity-services",
+  "version": "1.0.0",
+  "description": "Ara Identity Services (systemd, nginx, etc)",
+  "main": "index.js",
+  "scripts": {
+    "test": ":"
+  },
+  "keywords": [
+    "ara",
+    "identity",
+    "services",
+    "systemd",
+    "nginx",
+    "server",
+    "process"
+  ],
+  "author": "Joseph Werle <werle@littlstar.com>",
+  "license": "LGPL-3.0",
+  "dependencies": {
+    "ara-identity-archiver": "github:arablocks/ara-identity-archiver",
+    "ara-identity-resolver": "github:arablocks/ara-identity-resolver",
+    "ara-network": "github:arablocks/ara-network"
+  }
+}
