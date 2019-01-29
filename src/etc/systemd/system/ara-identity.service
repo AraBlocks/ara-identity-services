@@ -1,0 +1,18 @@
+Description=Ara Identity Services
+
+[Unit]
+After=network.target
+StartLimitIntervalSec=0
+
+[Service]
+Type=simple
+Restart=always
+RestartSec=1
+User=root
+ExecStart="/usr/local/bin/start-ara-identity"
+Environment="USER={{USER}}"
+Environment="HOME={{HOME}}"
+Environment="NODE_PATH={{NODE_PATH}}"
+
+[Install]
+WantedBy=multi-user.target
