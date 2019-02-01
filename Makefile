@@ -5,6 +5,8 @@ TARGETS = $(foreach S, $(SOURCES), $(shell echo $(S) | sed -e 's/src/tmp/g'))
 INSTALL_TARGETS = $(foreach T, $(TARGETS), $(shell echo $(T) | sed -e 's/tmp\///g'))
 UNINSTALL_TARGETS = $(foreach T, $(TARGETS), $(shell echo $(T) | sed -e 's/tmp/_/g'))
 
+TARGETS += $(wildcard tmp/etc/ara/ssl/*)
+
 HOSTS ?= /etc/hosts
 
 USER ?= $(shell whoami)
@@ -61,7 +63,7 @@ preamable:
 	  echo; \
 	fi
 
-build: $(TARGETS) $(NODE_MODULES) mkcert
+build: mkcert $(TARGETS) $(NODE_MODULES)
 	@echo
 	@echo '(i) Please run `$ sudo make install` to install service files'
 	@echo
