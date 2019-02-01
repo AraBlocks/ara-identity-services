@@ -10,6 +10,7 @@ HOSTS ?= /etc/hosts
 USER ?= $(shell whoami)
 HOME ?= $(HOME)
 PREFIX ?= /usr/local
+ADDRESS ?= 127.0.0.68
 ARA_PATH ?= $(PREFIX)/ara
 NODE_PATH ?= $(ARA_PATH)/node_modules
 NODE_MODULES ?= $(CWD)/node_modules
@@ -17,6 +18,7 @@ NODE_MODULES ?= $(CWD)/node_modules
 export USER
 export HOME
 export PREFIX
+export ADDRESS
 export ARA_PATH
 export NODE_PATH
 
@@ -73,7 +75,7 @@ $(TARGETS): $(SOURCES)
 		cat $$src | { $(MUSH) > $@; } && \
 		chmod `stat $$src -c '%a'` $@
 
-install: preamable preinstall $(INSTALL_TARGETS) $(NODE_PATH)
+install: preamable preinstall install-host $(INSTALL_TARGETS) $(NODE_PATH)
 	@echo
 	@echo '(i) Please run `$ sudo systemctl daemon-reload` to reload systemd unit files'
 	@echo '(i) Please run `$ sudo systemctl start ara-identity` to start identity services'
@@ -89,7 +91,7 @@ uninstall: $(UNINSTALL_TARGETS)
 	$(call RM, $(ARA_PATH))
 	@echo '(i) Removing mapping for "resolver.ara.local" in $(HOSTS)'
 	@mv $(HOSTS) $(HOSTS).bak
-	@cat $(HOSTS).bak | sed 's/127.0.0.68.*resolver.ara.local.*$$//g' > $(HOSTS)
+	@cat $(HOSTS).bak | sed '/$(ADDRESS).*resolver.ara.local.*$$/d' > $(HOSTS)
 	@rm -f $(HOSTS).bak
 
 reinstall: uninstall install
@@ -108,20 +110,19 @@ $(NODE_PATH): $(NODE_MODULES)
 $(NODE_MODULES):
 	npm install
 
-.PHONY: $(HOSTS)
-$(HOSTS):
-	@if `cat $@ | grep '127.0.0.68' >&2>/dev/null`; then \
-		if `cat $@ | grep 'resolver.ara.local' >&2>/dev/null`; then \
-			echo '(i) "127.0.0.68" already mapped to "resolver.ara.local"'; \
+.PHONY: install-host
+install-host:
+	@if `cat $(HOSTS) | grep $(ADDRESS) >&2>/dev/null`; then \
+		if `cat $(HOSTS) | grep 'resolver.ara.local' >&2>/dev/null`; then \
+			echo '(i) "$(ADDRESS)" already mapped to "resolver.ara.local"'; \
 		else \
-			echo '(x) "127.0.0.68" already mapped to a different hostname'; \
+			echo '(x) "" already mapped to a different hostname'; \
 			exit 1; \
 		fi; \
 	else \
-		echo '(i) Mapping "resolver.ara.local" to 127.0.0.68"'; \
-		printf "127.0.0.68\tresolver.ara.local\tresolver\n" >> $@; \
+		echo '(i) Mapping "resolver.ara.local" to $(ADDRESS)"'; \
+		printf "$(ADDRESS)\tresolver.ara.local\tresolver\n" >> $(HOSTS); \
 	fi
-
 
 clean:
 	$(call RM, "tmp/")
