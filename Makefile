@@ -132,8 +132,8 @@ install-host:
 		if `cat $(HOSTS) | grep 'resolver.ara.local' > /dev/null`; then \
 			echo '(i) "$(ADDRESS)" already mapped to "resolver.ara.local"'; \
 		else \
-			echo '(x) "" already mapped to a different hostname'; \
-			exit 1; \
+			echo '(i) Mapping "resolver.ara.local" to $(ADDRESS)"'; \
+			printf "$(ADDRESS)\tresolver.ara.local\tresolver\n" >> $(HOSTS); \
 		fi; \
 	else \
 		echo '(i) Mapping "resolver.ara.local" to $(ADDRESS)"'; \
