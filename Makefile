@@ -87,7 +87,7 @@ mkcert:
 	@echo
 	@cd tmp/mkcert && \
 		mkcert -install && \
-		mkcert resolver.ara.local $(ADDRESS) $(CERT_DOMAINS) && \
+		mkcert resolver.ara.local $(ADDRESS) $(CERT_DOMAINS) localhost ::1 && \
 		mv resolver.ara.local+*-key.pem ../etc/ara/ssl/resolver.ara.local.key && \
 		mv resolver.ara.local+*.pem ../etc/ara/ssl/resolver.ara.local.crt
 	@rm -rf tmp/mkcert
