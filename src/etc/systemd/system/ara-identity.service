@@ -13,6 +13,7 @@ ExecStart="/usr/local/bin/start-ara-identity"
 Environment="USER={{USER}}"
 Environment="HOME={{HOME}}"
 Environment="NODE_PATH={{NODE_PATH}}"
+Environment="NODE_EXTRA_CA_CERTS={{ROOT_CA}}"
 
 [Install]
 WantedBy=multi-user.target

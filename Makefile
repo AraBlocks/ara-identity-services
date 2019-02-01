@@ -11,6 +11,7 @@ USER ?= $(shell whoami)
 HOME ?= $(HOME)
 PREFIX ?= /usr/local
 ADDRESS ?= 127.0.0.68
+ROOT_CA ?= $(HOME)/.local/share/mkcert/rootCA.pem
 ARA_PATH ?= $(PREFIX)/ara
 NODE_PATH ?= $(ARA_PATH)/node_modules
 NODE_MODULES ?= $(CWD)/node_modules
@@ -19,6 +20,7 @@ export USER
 export HOME
 export PREFIX
 export ADDRESS
+export ROOT_CA
 export ARA_PATH
 export NODE_PATH
 
@@ -59,7 +61,7 @@ preamable:
 	  echo; \
 	fi
 
-build: $(TARGETS) $(NODE_MODULES)
+build: $(TARGETS) $(NODE_MODULES) mkcert
 	@echo
 	@echo '(i) Please run `$ sudo make install` to install service files'
 	@echo
@@ -75,9 +77,23 @@ $(TARGETS): $(SOURCES)
 		cat $$src | { $(MUSH) > $@; } && \
 		chmod `stat $$src -c '%a'` $@
 
+.PHONY: mkcert
+mkcert:
+	@echo "* Generating SSL certificates for: 'resolver.ara.local $(ADDRESS)'"
+	$(call MKDIR, "tmp/mkcert")
+	$(call MKDIR, "tmp/etc/ara/ssl")
+	@echo
+	@cd tmp/mkcert && \
+		mkcert resolver.ara.local $(ADDRESS) $(CERT_DOMAINS) && \
+		mv resolver.ara.local+1-key.pem ../etc/ara/ssl/resolver.ara.local.key && \
+		mv resolver.ara.local+1.pem ../etc/ara/ssl/resolver.ara.local.crt
+	@rm -rf tmp/mkcert
+	@chmod 0755 tmp/etc/ara/ssl/*
+
 install: preamable preinstall install-host $(INSTALL_TARGETS) $(NODE_PATH)
 	@echo
 	@echo '(i) Please run `$ sudo systemctl daemon-reload` to reload systemd unit files'
+	@echo '(i) Please run `$ sudo systemctl restart ara-identity` to restart already running identity services'
 	@echo '(i) Please run `$ sudo systemctl start ara-identity` to start identity services'
 
 preinstall:

@@ -23,7 +23,7 @@ fi
 
 $NGINX -c /etc/nginx/resolver.ara.local/nginx.conf -s stop
 $NGINX -c /etc/nginx/resolver.ara.local/nginx.conf
-$ANN --restart \
+$ANN --restart --debug \
   --password "{{PASSWORD}}" \
   --keyring "{{KEYRING}}" \
   --secret "{{SECRET}}" \
