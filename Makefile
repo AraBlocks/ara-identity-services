@@ -112,8 +112,8 @@ $(NODE_MODULES):
 
 .PHONY: install-host
 install-host:
-	@if `cat $(HOSTS) | grep $(ADDRESS) >&2>/dev/null`; then \
-		if `cat $(HOSTS) | grep 'resolver.ara.local' >&2>/dev/null`; then \
+	@if `cat $(HOSTS) | grep $(ADDRESS) > /dev/null`; then \
+		if `cat $(HOSTS) | grep 'resolver.ara.local' > /dev/null`; then \
 			echo '(i) "$(ADDRESS)" already mapped to "resolver.ara.local"'; \
 		else \
 			echo '(x) "" already mapped to a different hostname'; \
