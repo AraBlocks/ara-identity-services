@@ -85,8 +85,8 @@ mkcert:
 	@echo
 	@cd tmp/mkcert && \
 		mkcert resolver.ara.local $(ADDRESS) $(CERT_DOMAINS) && \
-		mv resolver.ara.local+1-key.pem ../etc/ara/ssl/resolver.ara.local.key && \
-		mv resolver.ara.local+1.pem ../etc/ara/ssl/resolver.ara.local.crt
+		mv resolver.ara.local+*-key.pem ../etc/ara/ssl/resolver.ara.local.key && \
+		mv resolver.ara.local+*.pem ../etc/ara/ssl/resolver.ara.local.crt
 	@rm -rf tmp/mkcert
 	@chmod 0755 tmp/etc/ara/ssl/*
 
@@ -107,7 +107,7 @@ uninstall: $(UNINSTALL_TARGETS)
 	$(call RM, $(ARA_PATH))
 	@echo '(i) Removing mapping for "resolver.ara.local" in $(HOSTS)'
 	@mv $(HOSTS) $(HOSTS).bak
-	@cat $(HOSTS).bak | sed '/$(ADDRESS).*resolver.ara.local.*$$/d' > $(HOSTS)
+	@cat $(HOSTS).bak | sed '/.*resolver.ara.local.*$$/d' > $(HOSTS)
 	@rm -f $(HOSTS).bak
 
 reinstall: uninstall install
