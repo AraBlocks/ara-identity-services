@@ -73,7 +73,7 @@ $(TARGETS): $(SOURCES)
 		cat $$src | { $(MUSH) > $@; } && \
 		chmod `stat $$src -c '%a'` $@
 
-install: preamable preinstall $(INSTALL_TARGETS) $(NODE_PATH) $(HOSTS)
+install: preamable preinstall $(INSTALL_TARGETS) $(NODE_PATH)
 	@echo
 	@echo '(i) Please run `$ sudo systemctl daemon-reload` to reload systemd unit files'
 	@echo '(i) Please run `$ sudo systemctl start ara-identity` to start identity services'
