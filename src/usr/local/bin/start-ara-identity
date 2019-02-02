@@ -22,8 +22,9 @@ if ! type $ANN >&2>/dev/null; then
   exit 1
 fi
 
+$NGINX -c /etc/nginx/resolver.ara.local/nginx.conf -s stop
+
 if (($USE_NGINX != 0)); then
-  $NGINX -c /etc/nginx/resolver.ara.local/nginx.conf -s stop
   $NGINX -c /etc/nginx/resolver.ara.local/nginx.conf
 fi
 
