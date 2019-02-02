@@ -1,29 +1,34 @@
 #!/usr/bin/env bash
 
+USE_NGINX="${USE_NGINX:-{{USE_NGINX}}}"
 NGINX=${NGINX:-/usr/bin/nginx}
 ANN=${ANN:-/usr/local/ara/node_modules/ara-network/bin/ara-network-node}
 
-if ! type $NGINX 2>/dev/null; then
+if ! type $NGINX >&2>/dev/null; then
   NGINX=$(which nginx 2>/dev/null)
 fi
 
-if ! type $ANN 2>/dev/null; then
+if ! type $ANN >&2>/dev/null; then
   ANN=$(which ann 2>/dev/null)
 fi
 
-if ! type $NGINX 2>/dev/null; then
+if ! type $NGINX >&2>/dev/null; then
   echo >&2 "error: Unable to resolve 'nginx' command"
   exit 1
 fi
 
-if ! type $ANN 2>/dev/null; then
+if ! type $ANN >&2>/dev/null; then
   echo >&2 "error: Unable to resolve 'ann' command"
   exit 1
 fi
 
-$NGINX -c /etc/nginx/resolver.ara.local/nginx.conf -s stop
-$NGINX -c /etc/nginx/resolver.ara.local/nginx.conf
-$ANN --restart --debug \
+if (($USE_NGINX != 0)); then
+  $NGINX -c /etc/nginx/resolver.ara.local/nginx.conf -s stop
+  $NGINX -c /etc/nginx/resolver.ara.local/nginx.conf
+fi
+
+$ANN --restart=true \
+  `(( 1 == $DEBUG )) && echo "--debug" || echo $DEBUG` \
   --password "{{PASSWORD}}" \
   --keyring "{{KEYRING}}" \
   --secret "{{SECRET}}" \
