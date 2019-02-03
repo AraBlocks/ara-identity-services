@@ -1,6 +1,5 @@
 #!/usr/bin/env bash
 
-USE_NGINX="${USE_NGINX:-{{USE_NGINX}}}"
 NGINX=${NGINX:-/usr/bin/nginx}
 ANN=${ANN:-/usr/local/ara/node_modules/ara-network/bin/ara-network-node}
 
