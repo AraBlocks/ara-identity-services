@@ -24,12 +24,12 @@ fi
 
 $NGINX -c /etc/nginx/resolver.ara.local/nginx.conf -s stop
 
-if (($USE_NGINX != 0)); then
+if (( 0 != ${USE_NGINX:-1} )); then
   $NGINX -c /etc/nginx/resolver.ara.local/nginx.conf
 fi
 
 $ANN --restart=true \
-  `(( 1 == $DEBUG )) && echo "--debug" || echo $DEBUG` \
+  `(( 1 == ${DEBUG:-0} )) && echo "--debug" || echo $DEBUG` \
   --password "{{PASSWORD}}" \
   --keyring "{{KEYRING}}" \
   --secret "{{SECRET}}" \
