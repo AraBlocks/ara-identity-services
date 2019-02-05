@@ -12,6 +12,7 @@ User=root
 ExecStart="/usr/local/bin/start-ara-identity"
 Environment="USER={{USER}}"
 Environment="HOME={{HOME}}"
+Environment="DEBUG={{DEBUG}}"
 Environment="NODE_PATH={{NODE_PATH}}"
 Environment="NODE_EXTRA_CA_CERTS={{ROOT_CA}}"
 

@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 
+DEBUG=${DEBUG:-"{{DEBUG}}"}
 NGINX=${NGINX:-/usr/bin/nginx}
 ANN=${ANN:-/usr/local/ara/node_modules/ara-network/bin/ara-network-node}
 
