@@ -20,6 +20,7 @@ NODE_MODULES ?= $(CWD)/node_modules
 
 export USER
 export HOME
+export DEBUG
 export PREFIX
 export ADDRESS
 export ROOT_CA
