@@ -53,18 +53,19 @@ define CP
 	@cp -rf $(1) $(2)
 endef
 
-default: preamable build
+default: build
 
 preamable:
 	@echo
 	@echo '## Welcome to Ara Identity Services build tool'
+	@echo "  Please run 'make help' for more information."
 	@echo
 	@if ! test -d tmp; then \
 	  echo '(i) Preparing to build files for Ara Identity Services'; \
 	  echo; \
 	fi
 
-build: mkcert $(TARGETS) $(NODE_MODULES)
+build: preamable mkcert $(TARGETS) $(NODE_MODULES)
 	@echo
 	@echo '(i) Please run `$ sudo make install` to install service files'
 	@echo
@@ -146,3 +147,29 @@ install-host:
 
 clean:
 	$(call RM, "tmp/")
+
+help:
+	@echo "usage: make [help|build|clean|install|uninstall|reinstall] ...KEY=VALUE"
+	@echo ""
+	@echo "where the following environment variables are used as templates"
+	@echo "to files in the src/ directory. These are used during the 'build',"
+	@echo "'install, 'uninstall', and 'reinstall' phases."
+	@echo ""
+	@echo "## User Environment"
+	@echo "export USER=$(USER)"
+	@echo "export HOME=$(HOME)"
+	@echo "export DEBUG=$(DEBUG)"
+	@echo "export PREFIX=$(PREFIX)"
+	@echo "export ROOT_CA=$(ROOT_CA)"
+	@echo "export ARA_PATH=$(ARA_PATH)"
+	@echo "export NODE_PATH=$(NODE_PATH)"
+	@echo ""
+	@echo "## Network Settings"
+	@echo "export ADDRESS=\"$(ADDRESS)\" # Network address the resolver will listen on"
+	@echo ""
+	@echo "## Network Node exports from environment"
+	@echo "export PASSWORD # Ara identity keystore password"
+	@echo "export KEYRING=$(KEYRING) # Keyring path or URL"
+	@echo "export SECRET=$(SECRET) # Keyring secret phrase"
+	@echo ""
+
