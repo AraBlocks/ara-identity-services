@@ -1,6 +1,6 @@
 {
   "name": "ara-identity-services",
-  "version": "0.4.0",
+  "version": "0.4.1",
   "description": "Ara Identity Services (systemd, nginx, etc)",
   "main": "index.js",
   "scripts": {
