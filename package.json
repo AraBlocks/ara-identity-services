@@ -18,8 +18,8 @@
   "author": "Joseph Werle <werle@littlstar.com>",
   "license": "LGPL-3.0",
   "dependencies": {
-    "ara-identity-archiver": "github:arablocks/ara-identity-archiver",
-    "ara-identity-resolver": "github:arablocks/ara-identity-resolver",
-    "ara-network": "github:arablocks/ara-network"
+    "ara-identity-archiver": "^0.43.1",
+    "ara-identity-resolver": "^0.50.0",
+    "ara-network": "^1.3.8"
   }
 }
