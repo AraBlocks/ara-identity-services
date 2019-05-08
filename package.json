@@ -19,7 +19,7 @@
   "license": "LGPL-3.0",
   "dependencies": {
     "ara-identity-archiver": "^0.43.2",
-    "ara-identity-resolver": "^0.50.1",
+    "ara-identity-resolver": "^0.51.0",
     "ara-network": "^1.3.8"
   }
 }
